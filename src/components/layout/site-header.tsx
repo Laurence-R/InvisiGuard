@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Shield, Github, ChevronDown, Lock, ScanEye, Layers, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -73,6 +74,7 @@ export function SiteHeader() {
             >
               <Github className="h-5 w-5" />
             </Link>
+            <ModeToggle />
             <Button asChild size="sm">
               <Link href="/embed">立即開始</Link>
             </Button>

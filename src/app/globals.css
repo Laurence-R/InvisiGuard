@@ -89,6 +89,11 @@
     color: hsl(var(--foreground));
     font-family: system-ui, -apple-system, sans-serif;
   }
+
+  ::selection {
+    background-color: #bae6fd; /* sky-200 */
+    color: #0f172a; /* slate-900 */
+  }
 }
 
 /* Glassmorphism Effects */
