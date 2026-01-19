@@ -36,7 +36,7 @@ export default function TestPage() {
   const [results, setResults] = useState<TestResults | null>(null);
   
   // 測試參數（使用者可自訂，需與嵌入時一致）
-  const [originalMessage, setOriginalMessage] = useState('TestWatermark2024');
+  const [originalMessage, setOriginalMessage] = useState("Copyright © 2024 MyCompany");
   const [waveletType, setWaveletType] = useState<WaveletType>(WaveletType.HAAR);
   const [decompositionLevel, setDecompositionLevel] = useState(2);
   const [embedBand, setEmbedBand] = useState<SubBand>(SubBand.HL);
