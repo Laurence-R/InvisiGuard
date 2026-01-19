@@ -67,7 +67,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-4">
             <Link 
-              href="https://github.com" 
+              href="https://github.com/Laurence-R/InvisiGuard.git" 
               target="_blank" 
               className="text-muted-foreground hover:text-foreground hidden sm:block transition-colors"
               aria-label="GitHub Repository"

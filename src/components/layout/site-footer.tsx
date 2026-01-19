@@ -25,7 +25,7 @@ export function SiteFooter() {
             <Link href="#" className="hover:text-foreground transition-colors">隱私權政策</Link>
             <Link href="#" className="hover:text-foreground transition-colors">使用條款</Link>
             <Link 
-              href="https://github.com" 
+              href="https://github.com/Laurence-R/InvisiGuard.git" 
               target="_blank" 
               className="hover:text-foreground transition-colors"
               aria-label="GitHub"
