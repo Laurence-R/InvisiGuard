@@ -60,7 +60,7 @@ export default function TestPage() {
   const [testing, setTesting] = useState(false);
   const [results, setResults] = useState<TestResults | null>(null);
 
-  const [originalMessage, setOriginalMessage] = useState('Copyright © 2024 MyCompany');
+  const [originalMessage, setOriginalMessage] = useState('');
   const [waveletType, setWaveletType] = useState<WaveletType>(WaveletType.HAAR);
   const [decompositionLevel, setDecompositionLevel] = useState(2);
   const [embedBand, setEmbedBand] = useState<SubBand>(SubBand.HL);
@@ -184,7 +184,7 @@ export default function TestPage() {
               decompositionLevel={decompositionLevel} quantizationStep={quantizationStep}
               onWaveletTypeChange={setWaveletType} onSubBandChange={setEmbedBand}
               onDecompositionLevelChange={setDecompositionLevel} onQuantizationStepChange={setQuantizationStep}
-              title="解碼參數" hint="需與嵌入時參數完全一致" />
+              showLL={true} title="解碼參數" hint="需與嵌入時參數完全一致" />
 
             <Button onClick={handleTest} disabled={!selectedFile || testing}
               className="w-full h-12 text-base shadow-lg hover:shadow-primary/25 transition-all hover:scale-[1.02]" size="lg">

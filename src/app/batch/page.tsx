@@ -42,7 +42,7 @@ export default function BatchEmbedPage() {
     const { embedWatermarkWorker, isReady } = useWatermarkWorker();
 
     // Embed Params
-    const [watermarkText, setWatermarkText] = useState('Copyright © InvisiGuard');
+    const [watermarkText, setWatermarkText] = useState('');
     const [quantizationStep, setQuantizationStep] = useState(50);
     const [decompositionLevel, setDecompositionLevel] = useState(2);
     const [embedBand, setEmbedBand] = useState<SubBand>(SubBand.HH);

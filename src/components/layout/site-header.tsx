@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import Image from "next/image";
 import { Shield, Github, ChevronDown, Lock, ScanEye, Layers, Zap, Menu } from "lucide-react";
