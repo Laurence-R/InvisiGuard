@@ -154,7 +154,7 @@ export default function TestPage() {
 
   return (
     <main className="relative overflow-hidden pt-24 pb-16">
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size:[14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size:[14px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <PageHero badge="Robustness Lab" badgeClassName="border-amber-500/20 bg-amber-500/5 text-amber-600"
           title="強韌度測試實驗室" description="透過模擬常見攻擊場景，驗證浮水印在各種影像處理操作後的存活能力。" />
@@ -217,15 +217,15 @@ export default function TestPage() {
               </div>
             ) : previewUrl ? (
               <Card className="overflow-hidden bg-background/40 border-muted backdrop-blur-sm">
-                <div className="relative flex items-center justify-center p-8 min-h-[400px]">
-                  <img src={previewUrl} alt="Test Target" className="max-w-full max-h-[500px] object-contain rounded-lg shadow-xl" />
+                <div className="relative flex items-center justify-center p-8 min-h-100">
+                  <img src={previewUrl} alt="Test Target" className="max-w-full max-h-125 object-contain rounded-lg shadow-xl" />
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center">
                     <Badge variant="outline" className="bg-background/70 backdrop-blur-sm">確認參數後開始測試</Badge>
                   </div>
                 </div>
               </Card>
             ) : (
-              <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed border-muted rounded-xl bg-muted/5 backdrop-blur-sm">
+              <div className="h-full min-h-100 flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed border-muted rounded-xl bg-muted/5 backdrop-blur-sm">
                 <TestTube className="h-16 w-16 mb-4 opacity-20" />
                 <p>等待輸入...</p>
               </div>
