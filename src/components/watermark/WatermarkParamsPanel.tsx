@@ -16,8 +16,6 @@ interface WatermarkParamsPanelProps {
   onSubBandChange: (value: SubBand) => void;
   onDecompositionLevelChange: (value: number) => void;
   onQuantizationStepChange: (value: number) => void;
-  /** 是否顯示 LL 低頻頻帶選項（提取/批次模式需要）*/
-  showLL?: boolean;
   title?: string;
   hint?: string;
 }
@@ -31,7 +29,6 @@ export function WatermarkParamsPanel({
   onSubBandChange,
   onDecompositionLevelChange,
   onQuantizationStepChange,
-  showLL = false,
   title = '演算法參數',
   hint,
 }: WatermarkParamsPanelProps) {
@@ -66,7 +63,7 @@ export function WatermarkParamsPanel({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {showLL && <SelectItem value={SubBand.LL}>LL (低頻)</SelectItem>}
+                <SelectItem value={SubBand.LL}>LL (低頻)</SelectItem>
                 <SelectItem value={SubBand.LH}>LH (水平)</SelectItem>
                 <SelectItem value={SubBand.HL}>HL (垂直)</SelectItem>
                 <SelectItem value={SubBand.HH}>HH (對角)</SelectItem>

@@ -68,7 +68,7 @@ export default function ExtractPage() {
               decompositionLevel={decompositionLevel} quantizationStep={quantizationStep}
               onWaveletTypeChange={setWaveletType} onSubBandChange={setEmbedBand}
               onDecompositionLevelChange={setDecompositionLevel} onQuantizationStepChange={setQuantizationStep}
-              showLL={true} title="解碼參數"
+              title="解碼參數"
               hint="參數需與嵌入時完全一致" />
 
             <Alert variant="default" className="bg-muted/30 border-muted">

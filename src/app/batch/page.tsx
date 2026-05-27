@@ -286,7 +286,6 @@ export default function BatchEmbedPage() {
                                 onSubBandChange={setEmbedBand}
                                 onDecompositionLevelChange={setDecompositionLevel}
                                 onQuantizationStepChange={setQuantizationStep}
-                                showLL={true}
                                 title="全域參數設定"
                                 hint="這些設定將應用於所有圖片"
                             />
