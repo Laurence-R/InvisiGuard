@@ -4,12 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import {
     Upload,
-    Settings,
     Download,
     Loader2,
-    AlertCircle,
-    CheckCircle2,
-    FileImage,
     Layers,
     X,
     Play,
@@ -21,12 +17,11 @@ import { WaveletType, SubBand, EmbedParams } from '@/types';
 // import { embedWatermark } from '@/lib/watermark'; // Removed direct usage
 import { loadImageFromFile, imageToImageData, imageDataToBlob } from '@/lib/image/loader';
 import { useWatermarkWorker } from '@/hooks/useWatermarkWorker';
+import { WatermarkParamsPanel } from '@/components/watermark/WatermarkParamsPanel';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
@@ -192,10 +187,9 @@ export default function BatchEmbedPage() {
     };
 
     return (
-        <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
-            <main className="flex-1 relative overflow-hidden pt-24 pb-16">
+        <main className="relative overflow-hidden pt-24 pb-16">
                 {/* Background Grid */}
-                <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+                <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size:[14px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
@@ -212,7 +206,7 @@ export default function BatchEmbedPage() {
                             <Button
                                 onClick={processBatch}
                                 disabled={isProcessing || items.length === 0 || items.every(i => i.status === 'completed')}
-                                className="min-w-[140px]"
+                                className="min-w-35"
                             >
                                 {isProcessing ? (
                                     <>
@@ -265,18 +259,14 @@ export default function BatchEmbedPage() {
                                 </CardContent>
                             </Card>
 
-                            {/* Settings Card */}
+                            {/* 浮水印訊息 */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Settings className="h-5 w-5" />
-                                        全域參數設定
-                                    </CardTitle>
-                                    <CardDescription>這些設定將應用於所有圖片</CardDescription>
+                                    <CardTitle className="text-base">隱藏訊息內容</CardTitle>
                                 </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <div className="space-y-2">
-                                        <Label>隱藏訊息內容</Label>
+                                <CardContent>
+                                    <div className="space-y-1">
+                                        <Label>套用於所有圖片</Label>
                                         <Textarea
                                             placeholder="例如：Copyright © 2024 MyCompany"
                                             value={watermarkText}
@@ -284,67 +274,22 @@ export default function BatchEmbedPage() {
                                             rows={3}
                                         />
                                     </div>
-
-                                    <div className="space-y-4">
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between">
-                                                <Label>分解層級 (Level {decompositionLevel})</Label>
-                                            </div>
-                                            <Slider
-                                                value={[decompositionLevel]}
-                                                max={5}
-                                                min={1}
-                                                step={1}
-                                                onValueChange={(val) => setDecompositionLevel(val[0])}
-                                            />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between">
-                                                <Label>量化步長 (Step: {quantizationStep})</Label>
-                                            </div>
-                                            <Slider
-                                                value={[quantizationStep]}
-                                                max={100}
-                                                min={10}
-                                                step={5}
-                                                onValueChange={(val) => setQuantizationStep(val[0])}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label>頻帶選擇</Label>
-                                            <Select value={embedBand} onValueChange={(v) => setEmbedBand(v as SubBand)}>
-                                                <SelectTrigger>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value={SubBand.LL}>LL (低頻-顯眼)</SelectItem>
-                                                    <SelectItem value={SubBand.LH}>LH (水平細節)</SelectItem>
-                                                    <SelectItem value={SubBand.HL}>HL (垂直細節)</SelectItem>
-                                                    <SelectItem value={SubBand.HH}>HH (對角-隱密)</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label>小波類型</Label>
-                                            <Select value={waveletType} onValueChange={(v) => setWaveletType(v as WaveletType)}>
-                                                <SelectTrigger>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="haar">Haar</SelectItem>
-                                                    <SelectItem value="db2">Daubechies 2</SelectItem>
-                                                    <SelectItem value="bior1.3">Biorthogonal 1.3</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                    </div>
                                 </CardContent>
                             </Card>
+
+                            <WatermarkParamsPanel
+                                waveletType={waveletType}
+                                subBand={embedBand}
+                                decompositionLevel={decompositionLevel}
+                                quantizationStep={quantizationStep}
+                                onWaveletTypeChange={setWaveletType}
+                                onSubBandChange={setEmbedBand}
+                                onDecompositionLevelChange={setDecompositionLevel}
+                                onQuantizationStepChange={setQuantizationStep}
+                                showLL={true}
+                                title="全域參數設定"
+                                hint="這些設定將應用於所有圖片"
+                            />
                         </div>
 
                         {/* Right Column: Queue List */}
@@ -361,7 +306,7 @@ export default function BatchEmbedPage() {
 
                                 {/* Empty State */}
                                 {items.length === 0 && (
-                                    <div className="h-[400px] flex flex-col items-center justify-center border rounded-xl bg-muted/20 text-muted-foreground">
+                                    <div className="h-100 flex flex-col items-center justify-center border rounded-xl bg-muted/20 text-muted-foreground">
                                         <Package className="h-12 w-12 mb-4 opacity-20" />
                                         <p>尚未加入任何圖片</p>
                                     </div>
@@ -372,7 +317,7 @@ export default function BatchEmbedPage() {
                                     {items.map((item) => (
                                         <div key={item.id} className="group relative flex items-center gap-4 p-3 rounded-lg border bg-card hover:bg-muted/30 transition-colors">
                                             {/* Preview Thumbnail */}
-                                            <div className="relative h-16 w-24 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                                            <div className="relative h-16 w-24 rounded-md overflow-hidden bg-muted shrink-0">
                                                 <Image
                                                     src={item.previewUrl}
                                                     alt="Preview"
@@ -425,6 +370,5 @@ export default function BatchEmbedPage() {
                     </div>
                 </div>
             </main>
-        </div>
     );
 }

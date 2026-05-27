@@ -21,7 +21,7 @@ export function SiteHeader() {
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4">
       <div className="container mx-auto max-w-6xl">
-        <div className="rounded-2xl border border-white/20 bg-background/70 backdrop-blur-xl shadow-sm supports-[backdrop-filter]:bg-background/60">
+        <div className="rounded-2xl border border-white/20 bg-background/70 backdrop-blur-xl shadow-sm supports-backdrop-filter:bg-background/60">
           <div className="flex h-16 items-center justify-between px-4 md:px-6">
             <div className="flex items-center gap-2">
               <Link href="/" className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export function SiteHeader() {
                       <span className="sr-only">Toggle Menu</span>
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                  <SheetContent side="right" className="w-75 sm:w-100">
                     <SheetHeader>
                       <SheetTitle className="text-left flex items-center gap-2">
                         <div className="relative h-6 w-6">

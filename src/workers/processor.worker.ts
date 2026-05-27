@@ -26,6 +26,7 @@ import {
 import { 
   calculatePSNR,
   calculateMSE,
+  calculateSSIM,
   deepCopy2DArray 
 } from '@/lib/utils';
 import { SubBand, WaveletType } from '@/types';
@@ -104,12 +105,13 @@ self.onmessage = (event: MessageEvent<WorkerMessage>) => {
       const originalGray = imageDataToGrayscale2D(imageData);
       const mse = calculateMSE(originalGray, finalGray);
       const psnr = calculatePSNR(originalGray, finalGray);
+      const ssim = calculateSSIM(originalGray, finalGray);
       
       const response: WorkerResponse = {
         type: 'EMBED_SUCCESS',
         payload: {
           imageData: resultImageData,
-          metrics: { psnr, mse, ssim: 0 },
+          metrics: { psnr, mse, ssim },
           fileId
         }
       };

@@ -70,7 +70,7 @@ export function useWatermarkWorker() {
         }
       };
       
-      workerRef.current?.postMessage(message);
+      workerRef.current?.postMessage(message, [message.payload.imageData.data.buffer]);
     });
   };
 
@@ -93,7 +93,7 @@ export function useWatermarkWorker() {
         }
       };
       
-      workerRef.current?.postMessage(message);
+      workerRef.current?.postMessage(message, [message.payload.imageData.data.buffer]);
     });
   };
 
