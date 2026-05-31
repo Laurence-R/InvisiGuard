@@ -68,6 +68,7 @@ export default function ExtractPage() {
               decompositionLevel={decompositionLevel} quantizationStep={quantizationStep}
               onWaveletTypeChange={setWaveletType} onSubBandChange={setEmbedBand}
               onDecompositionLevelChange={setDecompositionLevel} onQuantizationStepChange={setQuantizationStep}
+              onReset={() => { setWaveletType(WaveletType.HAAR); setEmbedBand(SubBand.HH); setDecompositionLevel(2); setQuantizationStep(50); }}
               title="解碼參數"
               hint="參數需與嵌入時完全一致" />
 

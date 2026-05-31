@@ -184,6 +184,7 @@ export default function TestPage() {
               decompositionLevel={decompositionLevel} quantizationStep={quantizationStep}
               onWaveletTypeChange={setWaveletType} onSubBandChange={setEmbedBand}
               onDecompositionLevelChange={setDecompositionLevel} onQuantizationStepChange={setQuantizationStep}
+              onReset={() => { setWaveletType(WaveletType.HAAR); setEmbedBand(SubBand.HH); setDecompositionLevel(2); setQuantizationStep(50); }}
               title="解碼參數" hint="需與嵌入時參數完全一致" />
 
             <Button onClick={handleTest} disabled={!selectedFile || testing}

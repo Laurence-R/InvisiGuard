@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react';
 import { Download, Loader2, AlertCircle, CheckCircle2, FileImage, Layers } from 'lucide-react';
 import { WaveletType, SubBand } from '@/types';
-import { imageDataToBlob, downloadImage, loadImageFromFile, imageToImageData } from '@/lib/image/loader';
+import { imageDataToBlob, loadImageFromFile, imageToImageData } from '@/lib/image/loader';
 import { padToPowerOfTwo } from '@/lib/image/processor';
 import { calculateCapacity } from '@/lib/algorithms/qim/embed';
 import { useWatermarkWorker } from '@/hooks/useWatermarkWorker';
+import { generateParamsText } from '@/lib/utils';
+import JSZip from 'jszip';
 import { ImageDropZone } from '@/components/watermark/ImageDropZone';
 import { WatermarkParamsPanel } from '@/components/watermark/WatermarkParamsPanel';
 import { PageHero } from '@/components/watermark/PageHero';
@@ -73,11 +75,28 @@ export default function EmbedPage() {
     }
   };
 
-  const handleDownload = () => {
-    if (result?.blob) {
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-      downloadImage(result.blob, `watermarked-${timestamp}.png`);
-    }
+  const handleDownload = async () => {
+    if (!result?.blob) return;
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+    const zip = new JSZip();
+    zip.file(`watermarked-${timestamp}.png`, result.blob);
+    zip.file('watermark-params.txt', generateParamsText({
+      watermarkText,
+      waveletType,
+      subBand: embedBand,
+      decompositionLevel,
+      quantizationStep,
+      filenames: [selectedFile?.name ?? 'image.png'],
+    }));
+    const content = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(content);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `InvisiGuard_${timestamp}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -128,6 +147,7 @@ export default function EmbedPage() {
               decompositionLevel={decompositionLevel} quantizationStep={quantizationStep}
               onWaveletTypeChange={setWaveletType} onSubBandChange={setEmbedBand}
               onDecompositionLevelChange={setDecompositionLevel} onQuantizationStepChange={setQuantizationStep}
+              onReset={() => { setWaveletType(WaveletType.HAAR); setEmbedBand(SubBand.HH); setDecompositionLevel(2); setQuantizationStep(50); }}
               title="進階參數" />
 
             <Button onClick={handleEmbed}

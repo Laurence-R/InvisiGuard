@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { generateParamsText } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 
@@ -164,15 +165,24 @@ export default function BatchEmbedPage() {
 
         if (completedItems.length === 0) return;
 
+        const protectedFilenames: string[] = [];
         completedItems.forEach(item => {
-            // Create a filename like "original_watermarked.png"
             const nameParts = item.file.name.split('.');
             const ext = nameParts.pop();
             const name = nameParts.join('.');
             const newFilename = `${name}_protected.${ext || 'png'}`;
-
+            protectedFilenames.push(newFilename);
             zip.file(newFilename, item.resultBlob!);
         });
+
+        zip.file('watermark-params.txt', generateParamsText({
+            watermarkText,
+            waveletType,
+            subBand: embedBand,
+            decompositionLevel,
+            quantizationStep,
+            filenames: protectedFilenames,
+        }));
 
         const content = await zip.generateAsync({ type: 'blob' });
         const url = URL.createObjectURL(content);
@@ -286,6 +296,7 @@ export default function BatchEmbedPage() {
                                 onSubBandChange={setEmbedBand}
                                 onDecompositionLevelChange={setDecompositionLevel}
                                 onQuantizationStepChange={setQuantizationStep}
+                                onReset={() => { setWaveletType(WaveletType.HAAR); setEmbedBand(SubBand.HH); setDecompositionLevel(2); setQuantizationStep(50); }}
                                 title="全域參數設定"
                                 hint="這些設定將應用於所有圖片"
                             />
